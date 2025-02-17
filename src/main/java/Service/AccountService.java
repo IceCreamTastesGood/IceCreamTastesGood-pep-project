@@ -11,6 +11,11 @@ public class AccountService {
         return account;
     }
 
-
+    /*
+    public Account getAccount(int account_id){
+        account = AccountDAO.getAccount(account_id);
+        return account;
+    }
+    */
 
 }
