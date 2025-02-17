@@ -1,5 +1,17 @@
 # Project: Social media blog API
 
+
+Objective:
+>new user
+>acount verification
+>new message
+>retrieve message
+>delete message
+>update user
+
+
+
+
 ## Background 
 
 When building a full-stack application, we're typically concerned with both a front end, that displays information to the user and takes in input, and a backend, that manages persisted information.
