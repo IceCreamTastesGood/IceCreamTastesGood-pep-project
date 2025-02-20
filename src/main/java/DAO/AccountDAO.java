@@ -20,7 +20,6 @@ public class AccountDAO {
             //auto generate a account_id key
             PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
-            // NEED TO SET IF STATEMENTS
             preparedStatement.setString(1, account.getUsername());
             preparedStatement.setString(2, account.getPassword());
 

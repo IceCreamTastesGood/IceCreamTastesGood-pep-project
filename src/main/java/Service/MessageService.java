@@ -16,7 +16,7 @@ public class MessageService {
     MessageDAO messageDao;
     AccountDAO accountDao;
 
-    //intantiates messagedao object
+    //intantiates objects
     public MessageService(){
         this.messageDao = new MessageDAO();
         this.accountDao = new AccountDAO();
