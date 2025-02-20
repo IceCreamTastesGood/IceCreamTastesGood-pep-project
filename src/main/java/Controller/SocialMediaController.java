@@ -3,6 +3,16 @@ package Controller;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
+import java.util.List;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import Model.Account;
+import Model.Message;
+import Service.AccountService;
+import Service.MessageService;
+
 /**
  * TODO: You will need to write your own endpoints and handlers for your controller. The endpoints you will need can be
  * found in readme.md as well as the test cases. You should
@@ -14,12 +24,15 @@ public class SocialMediaController {
      * suite must receive a Javalin object from this method.
      * @return a Javalin app object which defines the behavior of the Javalin controller.
      */
+
+     /* EXAMPLE
     public Javalin startAPI() {
         Javalin app = Javalin.create();
         app.get("example-endpoint", this::exampleHandler);
 
         return app;
     }
+    */
 
     /**
      * This is an example handler for an example endpoint.
@@ -29,5 +42,35 @@ public class SocialMediaController {
         context.json("sample text");
     }
 
+
+    // declares objects from the service.java
+    AccountService accountService;
+    MessageService messageService;
+
+    public SocialMediaController(){
+        this.accountService = new AccountService();
+        this.messageService = new MessageService();
+    }
+
+    // Javalin handles
+    public void startAPI(){
+        Javalin app = Javalin.create();
+        //app.get("/register", this::newMessageHandler);
+        //app.post("/register", this::postMessageHandler);
+        app.get("/accounts/{account_id}/messages", this::postAllMessagesHandler);
+        app.post("/accounts/{account_id}/messages", this::getAllMessagesHandler);
+        app.start(8080);
+    }
+
+    private void postAllMessagesHandler(Context ctx) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        Message message = mapper.readValue(ctx.body(), Message.class);
+        //Message newMessage = messageService.setMessage_id(message);
+    }
+
+    private void getAllMessagesHandler(Context ctx){
+        List<Message> messages = messageService.getAllMessages();
+        ctx.json(messages);
+    }
 
 }

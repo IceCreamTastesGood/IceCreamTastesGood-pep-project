@@ -12,11 +12,12 @@ public class MessageService {
         return message;
     }
 
-    /*
+    
     //returns all messages
     public List<Message> getAllMessages(){
-        return MessageDAO.getAllMessages();
+        //return MessageDAO.getAllMessages();
+        return null;
     }
-    */
+    
 
 }
