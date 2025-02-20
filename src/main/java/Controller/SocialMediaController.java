@@ -5,6 +5,8 @@ import io.javalin.http.Context;
 
 import java.util.List;
 
+import org.eclipse.jetty.util.component.ContainerLifeCycle;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -25,52 +27,51 @@ public class SocialMediaController {
      * @return a Javalin app object which defines the behavior of the Javalin controller.
      */
 
-     /* EXAMPLE
-    public Javalin startAPI() {
-        Javalin app = Javalin.create();
-        app.get("example-endpoint", this::exampleHandler);
-
-        return app;
-    }
-    */
-
-    /**
-     * This is an example handler for an example endpoint.
-     * @param context The Javalin Context object manages information about both the HTTP request and response.
-     */
-    private void exampleHandler(Context context) {
-        context.json("sample text");
-    }
-
-
     // declares objects from the service.java
     AccountService accountService;
     MessageService messageService;
 
+    // intiantiates object
     public SocialMediaController(){
         this.accountService = new AccountService();
         this.messageService = new MessageService();
     }
 
     // Javalin handles
-    public void startAPI(){
+    public Javalin startAPI(){
         Javalin app = Javalin.create();
-        //app.get("/register", this::newMessageHandler);
-        //app.post("/register", this::postMessageHandler);
-        app.get("/accounts/{account_id}/messages", this::postAllMessagesHandler);
-        app.post("/accounts/{account_id}/messages", this::getAllMessagesHandler);
-        app.start(8080);
+
+        //get all messages
+        app.get("/messages", this::getAllMessagesHandler);
+
+        //create new message
+        app.post("/messages", this::postNewMessageHandler);
+
+
+
+        return app;
     }
 
-    private void postAllMessagesHandler(Context ctx) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        Message message = mapper.readValue(ctx.body(), Message.class);
-        //Message newMessage = messageService.setMessage_id(message);
-    }
-
-    private void getAllMessagesHandler(Context ctx){
+    //get all messages handler, transfers it to http
+    private void getAllMessagesHandler(Context ctx) throws JsonProcessingException {
         List<Message> messages = messageService.getAllMessages();
         ctx.json(messages);
     }
+
+
+    private void postNewMessageHandler(Context ctx) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        Message message = mapper.readValue(ctx.body(), Message.class);
+        Message newMessage = messageService.newMessage(message);
+
+        // if message creation successful then return json, if not then return 400 error
+        if (newMessage != null){
+            ctx.json(mapper.writeValueAsString(newMessage));
+        } else {
+            ctx.status(400);
+        }
+        
+    }
+
 
 }

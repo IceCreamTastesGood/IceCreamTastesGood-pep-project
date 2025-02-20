@@ -41,7 +41,7 @@ public class MessageDAO {
     }
 
 
-
+    // returns all messages
     public List<Message> getAllMessages(){
         
         Connection connection = ConnectionUtil.getConnection();
@@ -58,13 +58,11 @@ public class MessageDAO {
                 messages.add(message);
             } 
 
-
         } catch (SQLException e){
             System.out.println(e.getMessage());
         }
-        
-        
-        return null;
+               
+        return messages;
     }
 
 }
