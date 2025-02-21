@@ -27,12 +27,11 @@ public class MessageService {
     public Message newMessage(Message message){
 
         // not null, less than 255 characters, and not empty posted_by
-        if (!message.getMessage_text().isBlank() && message.getMessage_text().length() < 255 && accountDao.getAccount(message.getPosted_by()) != null){
+        if (!message.getMessage_text().isBlank() && message.getMessage_text().length() < 255){ //&& accountDao.getAccount(message.getPosted_by()) != null){
             return messageDao.newMessage(message);
         } else {
             return null;
         }
-
     }
 
     
@@ -41,5 +40,9 @@ public class MessageService {
         return messageDao.getAllMessages();
     }
     
+    //gets a message by its ID; message_id
+    public Message getMessage(Message message){
+        return messageDao.getMessagebyID(message.getMessage_id());
+    }
 
 }

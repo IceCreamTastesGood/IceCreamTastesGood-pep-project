@@ -50,7 +50,11 @@ public class SocialMediaController {
         //create new user
         app.post("/register", this::postNewAccountHandler);
 
+        //user login
+        app.post("/login", this::postLoginHandler);
 
+        //get message from message_id
+        app.get("/messages/{message_id}", this::getMessagebyIDHandler);
 
         return app;
     }
@@ -88,6 +92,27 @@ public class SocialMediaController {
         }
     }
 
+    private void postLoginHandler(Context ctx) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        Account account = mapper.readValue(ctx.body(), Account.class);
+        Account getAccount = accountService.getAccount(account);
 
+        if (getAccount != null){
+            ctx.json(mapper.writeValueAsString(getAccount));
+        } else {
+            ctx.status(401);
+        }
+        
+    }
+
+    private void getMessagebyIDHandler(Context ctx) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        Message message = mapper.readValue(ctx.body(), Message.class);
+        Message getMessage = messageService.getMessage(message);
+
+        ctx.json(mapper.writeValueAsString(getMessage));
+        
+        //List<Message> message = messageService.getMessage(null);
+    }
 
 }

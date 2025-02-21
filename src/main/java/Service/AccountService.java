@@ -21,6 +21,8 @@ public class AccountService {
 
     //adds new user
     public Account addAccount(Account account){
+
+        //if username is not black & password is at least 4 characters
         if (!account.getUsername().isBlank() && account.getPassword().length() > 3)
             return accountDao.insertAccount(account);
         else {
@@ -28,11 +30,16 @@ public class AccountService {
         }
     }
 
-    /*
-    public Account getAccount(int account_id){
-        account = AccountDAO.getAccount(account_id);
-        return account;
+    public Account getAccount(Account account){
+        
+        //if username is not blacnk & password is not blank
+        if (!account.getUsername().isBlank() && !account.getPassword().isBlank()){
+            return accountDao.getAccount(account);
+        } else {
+            return null;
+        }
+
+            
     }
-    */
 
 }

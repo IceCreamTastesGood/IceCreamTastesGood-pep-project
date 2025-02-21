@@ -40,22 +40,23 @@ public class AccountDAO {
     }
 
     // user login
-    public Account getAccount(int account_id){
+    public Account getAccount(Account account){
         Connection connection = ConnectionUtil.getConnection();
 
         try {
-            String sql = "SELECT * FROM Account WHERE account_id = ?";
+            String sql = "SELECT * FROM Account WHERE account_id = ?, password = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
-            preparedStatement.setInt(1, account_id);
+            preparedStatement.setInt(1, account.getAccount_id());
+            preparedStatement.setString(2, account.getPassword());
 
             //finds the account within the database/query then returns that account
             ResultSet resultSet = preparedStatement.executeQuery();
             while(resultSet.next()){
-                Account account = new Account(resultSet.getInt("account_id"),
+                Account retreiveaccount = new Account(resultSet.getInt("account_id"),
                                             resultSet.getString("username"),
                                             resultSet.getString("password"));
-                return account;
+                return retreiveaccount;
             }
 
         } catch (SQLException e){
