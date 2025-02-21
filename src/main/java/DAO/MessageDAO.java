@@ -65,7 +65,7 @@ public class MessageDAO {
         return messages;
     }
 
-
+    //returns a message by its message_id, called from MessageService.java
     public Message getMessagebyID(int id){
         Connection connection = ConnectionUtil.getConnection();
         try {
