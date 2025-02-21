@@ -20,9 +20,12 @@ public class AccountService {
 
 
     //adds new user
-    //NEED LOGIC TO VERIFY NO DUPLICATE ACCOUNT ID
     public Account addAccount(Account account){
-        return accountDao.insertAccount(account);
+        if (!account.getUsername().isBlank() && account.getPassword().length() > 3)
+            return accountDao.insertAccount(account);
+        else {
+            return null;
+        }
     }
 
     /*

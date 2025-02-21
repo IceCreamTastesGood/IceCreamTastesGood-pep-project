@@ -47,6 +47,9 @@ public class SocialMediaController {
         //create new message
         app.post("/messages", this::postNewMessageHandler);
 
+        //create new user
+        app.post("/register", this::postNewAccountHandler);
+
 
 
         return app;
@@ -72,6 +75,19 @@ public class SocialMediaController {
         }
         
     }
+
+    private void postNewAccountHandler(Context ctx) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        Account account = mapper.readValue(ctx.body(), Account.class);
+        Account newAccount = accountService.addAccount(account);
+
+        if (newAccount != null){
+            ctx.json(mapper.writeValueAsString(newAccount));
+        } else {
+            ctx.status(400);
+        }
+    }
+
 
 
 }
