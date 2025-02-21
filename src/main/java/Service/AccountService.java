@@ -32,9 +32,11 @@ public class AccountService {
 
     public Account getAccount(Account account){
         
-        //if username is not blacnk & password is not blank
-        if (!account.getUsername().isBlank() && !account.getPassword().isBlank()){
-            return accountDao.getAccount(account);
+        Account accountobj = accountDao.getAccount(account);
+
+        //if account object is not blank
+        if (accountobj != null){
+            return accountobj;
         } else {
             return null;
         }

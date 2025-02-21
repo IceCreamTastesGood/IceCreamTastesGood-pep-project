@@ -41,8 +41,8 @@ public class MessageService {
     }
     
     //gets a message by its ID; message_id
-    public Message getMessage(Message message){
-        return messageDao.getMessagebyID(message.getMessage_id());
+    public Message getMessage(int id){
+        return messageDao.getMessagebyID(id);
     }
 
 }

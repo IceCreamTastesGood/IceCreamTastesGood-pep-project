@@ -44,10 +44,10 @@ public class AccountDAO {
         Connection connection = ConnectionUtil.getConnection();
 
         try {
-            String sql = "SELECT * FROM Account WHERE account_id = ?, password = ?";
+            String sql = "SELECT * FROM Account WHERE username = ? AND password = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
-            preparedStatement.setInt(1, account.getAccount_id());
+            preparedStatement.setString(1, account.getUsername());
             preparedStatement.setString(2, account.getPassword());
 
             //finds the account within the database/query then returns that account
