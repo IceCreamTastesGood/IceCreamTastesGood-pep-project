@@ -106,16 +106,16 @@ public class SocialMediaController {
     }
 
     private void getMessagebyIDHandler(Context ctx) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        Message message = mapper.readValue(ctx.body(), Message.class);
+        //ObjectMapper mapper = new ObjectMapper();
+       //Message message = mapper.readValue(ctx.body(), Message.class);
 
         //parse* this into Integer; holds true for read and update handlers
-        Integer messageID = ctx.pathParam(message.getS);
+        Integer messageID = Integer.parseInt(ctx.pathParam("message_id"));
 
-        Message getMessage = messageService.getMessage(message.getMessage_id());
+        Message getMessage = messageService.getMessage(messageID);
 
         if (getMessage != null){
-            ctx.json(mapper.writeValueAsString(getMessage));
+            ctx.json(getMessage);
         } else {
             ctx.status(200);
         }
