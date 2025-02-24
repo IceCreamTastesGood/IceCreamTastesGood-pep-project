@@ -97,12 +97,19 @@ public class MessageDAO {
         Connection connection = ConnectionUtil.getConnection();
 
         try {
+            //stores
+            Message storeID = getMessagebyID(id);
+            
             String sql = "DELETE FROM Message WHERE message_id = ?";
 
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
             preparedStatement.setInt(1, id);
 
+            preparedStatement.executeUpdate();
+
+            return storeID;
+            /* 
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()){
                 Message message = new Message(resultSet.getInt("message_id"),
@@ -112,7 +119,7 @@ public class MessageDAO {
 
                 return message;
             }
-
+            */
         } catch (SQLException e){
             System.out.println(e.getMessage());
         }
@@ -120,7 +127,7 @@ public class MessageDAO {
     }
 
     //updates a message by its message_id
-    public Message updateMessagebyID(Message message){
+    public Message updateMessagebyID(int id, Message message){
         Connection connection = ConnectionUtil.getConnection();
 
         try {
@@ -129,8 +136,12 @@ public class MessageDAO {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
             preparedStatement.setString(1, message.getMessage_text());
+            preparedStatement.setInt(2, id);
 
-            ResultSet resultSet = preparedStatement.executeQuery();
+            preparedStatement.executeUpdate();
+            //ResultSet resultSet = preparedStatement.executeUpdate();
+            
+            /* 
             while (resultSet.next()){
                 Message updatemessage = new Message(resultSet.getInt("message_id"),
                                 resultSet.getInt("posted_by"),
@@ -139,7 +150,7 @@ public class MessageDAO {
 
                 return updatemessage;
             }
-
+            */
 
         } catch (SQLException e){
             System.out.println(e.getMessage());

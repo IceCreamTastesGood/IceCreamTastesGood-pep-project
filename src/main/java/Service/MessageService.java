@@ -47,13 +47,30 @@ public class MessageService {
 
     //retrieves message by its ID then calls on MessageDAO to delete it
     public Message deleteMessage (int id){
-        return messageDao.deleteMessagebyID(id);
+
+        Message delete = messageDao.getMessagebyID(id);
+
+        //messageDao.deleteMessagebyID(id);
+
+        if (delete != null){
+            return messageDao.deleteMessagebyID(id);
+        } else {
+            return null;
+        }
+
+        
     }
 
     //updates message by its ID then calls on MessageDAO to update it
-    public Message updateMessage (Message message){
-        if (!message.getMessage_text().isBlank() && message.getMessage_text().length() < 255) {
-            return messageDao.updateMessagebyID(message);
+    public Message updateMessage (int id, Message message){
+        
+        Message update = messageDao.getMessagebyID(id);
+        
+        if (update != null && !message.getMessage_text().isBlank() && message.getMessage_text().length() < 255) {
+            messageDao.updateMessagebyID(id, message);
+
+            return messageDao.getMessagebyID(id);
+
         } else {
             return null;
         }
