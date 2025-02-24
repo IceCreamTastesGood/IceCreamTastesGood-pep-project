@@ -59,4 +59,9 @@ public class MessageService {
         }
     }
 
+    //get all messages by ID
+    public List<Message> getAllMessagesbyID(int id){
+        return messageDao.getAllMessagesbyID(id);
+    }
+
 }

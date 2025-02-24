@@ -62,6 +62,9 @@ public class SocialMediaController {
         //update message from message_id
         app.patch("/messages/{message_id}", this::updateMessagebyIDHandler);
 
+        //get app messages from message_id
+        app.get("/messages/{message_id}", this::getAllMessagesbyIDHandler);
+
         return app;
     }
 
@@ -153,6 +156,22 @@ public class SocialMediaController {
         } else {
             ctx.status(400);
         }
+    }
+
+    private void getAllMessagesbyIDHandler(Context ctx) throws JsonProcessingException {
+        //List<Message> messages = messageService.getAllMessagesbyID();
+        //ctx.json(messages);
+
+        Integer messageID = Integer.parseInt(ctx.pathParam("message_id"));
+
+        List<Message> allMessage = messageService.getAllMessagesbyID(messageID);
+
+        if (allMessage != null){
+            ctx.json(allMessage);
+        } else {
+            ctx.status(200);
+        }
+
     }
 
 }
