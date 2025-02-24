@@ -63,7 +63,7 @@ public class SocialMediaController {
         app.patch("/messages/{message_id}", this::updateMessagebyIDHandler);
 
         //get app messages from message_id
-        app.get("/messages/{message_id}", this::getAllMessagesbyIDHandler);
+        app.get("/accounts/{account_id}/messages", this::getAllMessagesbyIDHandler);
 
         return app;
     }
@@ -162,9 +162,9 @@ public class SocialMediaController {
         //List<Message> messages = messageService.getAllMessagesbyID();
         //ctx.json(messages);
 
-        Integer messageID = Integer.parseInt(ctx.pathParam("message_id"));
+        Integer accountID = Integer.parseInt(ctx.pathParam("account_id"));
 
-        List<Message> allMessage = messageService.getAllMessagesbyID(messageID);
+        List<Message> allMessage = messageService.getAllMessagesbyID(accountID);
 
         if (allMessage != null){
             ctx.json(allMessage);
