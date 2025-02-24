@@ -92,5 +92,59 @@ public class MessageDAO {
         return null;
     }
 
+    //deletes a message by its message_id
+    public Message deleteMessagebyID(int id){
+        Connection connection = ConnectionUtil.getConnection();
+
+        try {
+            String sql = "DELETE FROM Message WHERE message_id = ?";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setInt(1, id);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                Message message = new Message(resultSet.getInt("message_id"),
+                                resultSet.getInt("posted_by"),
+                                resultSet.getString("message_text"),
+                                resultSet.getLong("time_posted_epoch"));
+
+                return message;
+            }
+
+        } catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    //updates a message by its message_id
+    public Message updateMessagebyID(Message message){
+        Connection connection = ConnectionUtil.getConnection();
+
+        try {
+            String sql = "UPDATE Message SET message_text = ? WHERE message_id = ?";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setString(1, message.getMessage_text());
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                Message updatemessage = new Message(resultSet.getInt("message_id"),
+                                resultSet.getInt("posted_by"),
+                                resultSet.getString("message_text"),
+                                resultSet.getLong("time_posted_epoch"));
+
+                return updatemessage;
+            }
+
+
+        } catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
 
 }

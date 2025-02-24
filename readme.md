@@ -47,7 +47,7 @@ As a user, I should be able to create a new Account on the endpoint POST localho
 - The registration will be successful if and only if the username is not blank, the password is at least 4 characters long, and an Account with that username does not already exist. If all these conditions are met, the response body should contain a JSON of the Account, including its account_id. The response status should be 200 OK, which is the default. The new account should be persisted to the database.
 - If the registration is not successful, the response status should be 400. (Client error)
 
-## 2: Our API should be able to process User logins.
+## 2: Our API should be able to process User logins. [Done]
 
 As a user, I should be able to verify my login on the endpoint POST localhost:8080/login. The request body will contain a JSON representation of an Account, not containing an account_id. In the future, this action may generate a Session token to allow the user to securely use the site. We will not worry about this for now.
 
@@ -68,7 +68,7 @@ As a user, I should be able to submit a GET request on the endpoint GET localhos
 
 - The response body should contain a JSON representation of a list containing all messages retrieved from the database. It is expected for the list to simply be empty if there are no messages. The response status should always be 200, which is the default.
 
-## 5: Our API should be able to retrieve a message by its ID.
+## 5: Our API should be able to retrieve a message by its ID. [Done]
 
 As a user, I should be able to submit a GET request on the endpoint GET localhost:8080/messages/{message_id}.
 

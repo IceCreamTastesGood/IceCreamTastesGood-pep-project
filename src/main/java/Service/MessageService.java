@@ -45,4 +45,18 @@ public class MessageService {
         return messageDao.getMessagebyID(id);
     }
 
+    //retrieves message by its ID then calls on MessageDAO to delete it
+    public Message deleteMessage (int id){
+        return messageDao.deleteMessagebyID(id);
+    }
+
+    //updates message by its ID then calls on MessageDAO to update it
+    public Message updateMessage (Message message){
+        if (!message.getMessage_text().isBlank() && message.getMessage_text().length() < 255) {
+            return messageDao.updateMessagebyID(message);
+        } else {
+            return null;
+        }
+    }
+
 }

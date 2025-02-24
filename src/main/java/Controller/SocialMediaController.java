@@ -56,6 +56,12 @@ public class SocialMediaController {
         //get message from message_id
         app.get("/messages/{message_id}", this::getMessagebyIDHandler);
 
+        //delete message from message_id
+        app.delete("/messages/{message_id}", this::deleteMessagebyIDHandler);
+
+        //update message from message_id
+        app.patch("/messages/{message_id}", this::updateMessagebyIDHandler);
+
         return app;
     }
 
@@ -106,10 +112,9 @@ public class SocialMediaController {
     }
 
     private void getMessagebyIDHandler(Context ctx) throws JsonProcessingException {
-        //ObjectMapper mapper = new ObjectMapper();
-       //Message message = mapper.readValue(ctx.body(), Message.class);
 
         //parse* this into Integer; holds true for read and update handlers
+        //Explanation: because the message_id is a string with integers, then the parseInt() works
         Integer messageID = Integer.parseInt(ctx.pathParam("message_id"));
 
         Message getMessage = messageService.getMessage(messageID);
@@ -120,7 +125,34 @@ public class SocialMediaController {
             ctx.status(200);
         }
         
-        //List<Message> message = messageService.getMessage(null);
+    }
+
+    private void deleteMessagebyIDHandler(Context ctx) throws JsonProcessingException {
+
+        Integer messageID = Integer.parseInt(ctx.pathParam("message_id"));
+
+        Message deleteMessage = messageService.deleteMessage(messageID);
+
+        if (deleteMessage != null){
+            ctx.json(deleteMessage);
+        } else {
+            ctx.status(200);
+        }
+    }
+
+    private void updateMessagebyIDHandler(Context ctx) throws JsonProcessingException {
+        //Integer messageID = Integer.parseInt(ctx.pathParam("message_id"));
+        //Message updateMessage = messageService.updateMessage(messageID);
+
+        ObjectMapper mapper = new ObjectMapper();
+        Message message = mapper.readValue(ctx.body(), Message.class);
+        Message updateMessage = messageService.updateMessage(message);
+
+        if (updateMessage != null){
+            ctx.json(mapper.writeValueAsString(updateMessage));
+        } else {
+            ctx.status(400);
+        }
     }
 
 }
